@@ -6,7 +6,6 @@ public class CellularAutomata {
         for (int x = 0; x < oldMap.length; x++) {
             for (int y = 0; y < oldMap[x].length; y++) {
                 int nbs = countAliveNeighbours(oldMap, x, y);
-
                 newMap[x][y] = nbs > 2 || oldMap[x][y];
             }
         }

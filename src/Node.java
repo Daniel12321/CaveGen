@@ -1,16 +1,24 @@
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
-public record Node(int x, int y) {
+public final class Node {
 
-//    public static final List<Direction> DIRECTIONS = new ArrayList<>();
-//
-//    static {
-//        DIRECTIONS.add(Node::up);
-//        DIRECTIONS.add(Node::down);
-//        DIRECTIONS.add(Node::left);
-//        DIRECTIONS.add(Node::right);
-//    }
+    private final int x, y;
+
+    public Node(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int x() {
+        return this.x;
+    }
+
+    public int y() {
+        return this.y;
+    }
 
     public Node up() {
         return new Node(x, y + 1);
@@ -53,6 +61,20 @@ public record Node(int x, int y) {
                 "x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (Node) obj;
+        return this.x == that.x &&
+                this.y == that.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
     @FunctionalInterface

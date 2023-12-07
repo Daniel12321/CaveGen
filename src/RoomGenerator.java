@@ -24,8 +24,8 @@ public class RoomGenerator {
     }
 
     public boolean[][] generateRoom() {
-        boolean[][] room = new boolean[roomSize*2+1][roomSize*2+1];
-        Node middle = new Node(roomSize, roomSize);
+        boolean[][] room = new boolean[this.roomSize*2+1][this.roomSize*2+1];
+        Node middle = new Node(this.roomSize, this.roomSize);
 
         room[middle.x()][middle.y()] = true;
 
@@ -34,18 +34,15 @@ public class RoomGenerator {
         Node n3 = middle.left();
         Node n4 = middle.right();
 
-        for (int i = 0; i < roomSize * 4; i++) {
+        for (int i = 0; i < this.roomSize * 4; i++) {
             n1 = generateTile(room, middle, n1);
             n2 = generateTile(room, middle, n2);
             n3 = generateTile(room, middle, n3);
             n4 = generateTile(room, middle, n4);
         }
 
-//        print(room);
-        for (int i = 0; i < World.SIM_STEPS; i++) {
+        for (int i = 0; i < World.SIM_STEPS_ROOM; i++)
             room = CellularAutomata.doSimulationStep(room);
-//            print(room);
-        }
 
         return room;
     }
@@ -57,14 +54,10 @@ public class RoomGenerator {
         room[node.x()][node.y()] = true;
 
         List<Node.Direction> dirs = this.getRandomDirections();
-
-//        System.out.printf("Generated dirs: [%d, %d, %d, %d]", dirs.get(0), dirs.get(1), dirs.get(2), dirs.get(3)); // TODO: Remove
-//        System.out.println();
-
         Node next;
         for (Node.Direction dir : dirs) {
             next = dir.apply(node);
-            if (next.distanceSteps(middle) > roomSize || room[next.x()][next.y()]) // Bounds check no longer needed as the distance prevents going out of bounds
+            if (next.distanceSteps(middle) > this.roomSize || room[next.x()][next.y()]) // Bounds check no longer needed as the distance prevents going out of bounds
                 continue;
 
             room[next.x()][next.y()] = true;
